@@ -87,8 +87,8 @@ function filterPosts(e) {
   const posts = document.querySelectorAll('.post')
 
   posts.forEach(post => {
-    const title = post.querySelector('.post-title').textContent.toLocaleLowerCase()
-    const body = post.querySelector('.post-body').textContent.toLocaleLowerCase()
+    const title = post.querySelector('.post-title').textContent.toLowerCase()
+    const body = post.querySelector('.post-body').textContent.toLowerCase()
 
     if (title.indexOf(term) > -1 || body.indexOf(term) > -1) {
       post.style.display = 'block'
