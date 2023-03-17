@@ -1,9 +1,14 @@
 const postsContainer = document.querySelector('#posts-container')
 const filter = document.querySelector('#fitler')
-const loader = document.querySelector('#loader')
+const loaderElem = document.querySelector('#loader')
 
-let limit = 3
+let limit = 5
 let page = 1
+
+// Event listeners
+
+// Show more posts on scroll
+window.addEventListener('scroll', showMorePosts)
 
 // Fetch posts from API
 async function getPosts() {
@@ -20,13 +25,11 @@ async function getPosts() {
 async function showPosts() {
   const posts = await getPosts()
 
-  console.log(posts[0])
-
   posts.forEach(post => {
-    const postEl = document.createElement('div')
-    postEl.classList.add('post')
+    const postElem = document.createElement('div')
+    postElem.classList.add('post')
 
-    postEl.innerHTML = `
+    postElem.innerHTML = `
       <div class="post-number">${post.id}</div>
       <div class="post-info">
         <h2 class="post-title">${post.title}</h2>
@@ -36,8 +39,33 @@ async function showPosts() {
       </div>
     `
 
-    postsContainer.appendChild(postEl)
+    postsContainer.appendChild(postElem)
   })
+}
+
+// Show more posts on scroll
+function showMorePosts() {
+  const { scrollTop, scrollHeight, clientHeight } = document.documentElement
+
+  if (scrollTop + clientHeight >= scrollHeight - 1) {
+    console.log('dupa')
+    showLoader()
+  }
+}
+
+// Show loader & fetch more posts
+function showLoader() {
+  loaderElem.classList.add('show')
+
+  setTimeout(() => {
+    loaderElem.classList.remove('show')
+
+    setTimeout(() => {
+      page++
+      showPosts()
+    }, 300)
+
+  }, 1000)
 }
 
 // Show initial posts
