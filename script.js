@@ -1,5 +1,5 @@
 const postsContainer = document.querySelector('#posts-container')
-const filter = document.querySelector('#fitler')
+const filter = document.querySelector('#filter')
 const loaderElem = document.querySelector('#loader')
 
 let limit = 5
@@ -10,6 +10,9 @@ let isLoading = false
 
 // Show more posts on scroll
 window.addEventListener('scroll', showMorePosts)
+
+// Filter
+filter.addEventListener('input', filterPosts)
 
 // Functions
 
@@ -76,6 +79,23 @@ async function showLoader() {
   await showPosts()
 
   isLoading = false
+}
+
+// Filter posts by input
+function filterPosts(e) {
+  const term = e.target.value.toLowerCase()
+  const posts = document.querySelectorAll('.post')
+
+  posts.forEach(post => {
+    const title = post.querySelector('.post-title').textContent.toLocaleLowerCase()
+    const body = post.querySelector('.post-body').textContent.toLocaleLowerCase()
+
+    if (title.indexOf(term) > -1 || body.indexOf(term) > -1) {
+      post.style.display = 'block'
+    } else {
+      post.style.display = 'none'
+    }
+  })
 }
 
 // Show initial posts
