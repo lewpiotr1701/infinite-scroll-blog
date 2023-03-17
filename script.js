@@ -4,6 +4,7 @@ const loaderElem = document.querySelector('#loader')
 
 let limit = 5
 let page = 1
+let currentPosts = []
 
 // Event listeners
 
@@ -18,14 +19,15 @@ async function getPosts() {
 
   const data = await res.json()
 
-  return data
+  currentPosts = data
+
+  showPosts()
 }
 
 // Show posts in DOM
-async function showPosts() {
-  const posts = await getPosts()
+function showPosts() {
 
-  posts.forEach(post => {
+  currentPosts.forEach(post => {
     const postElem = document.createElement('div')
     postElem.classList.add('post')
 
@@ -62,11 +64,11 @@ function showLoader() {
 
     setTimeout(() => {
       page++
-      showPosts()
+      getPosts()
     }, 300)
 
   }, 1000)
 }
 
 // Show initial posts
-showPosts()
+getPosts()
